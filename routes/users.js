@@ -221,7 +221,7 @@ router.post('/forgot-password', async (req, res) => {
           console.log('Email sent: ' + info.response);
           res.json({
             statusCode: 200,
-            message:"Email Sent Successfully, Reset your password now! (if email is not found in the inbox, kindly check your span folder)"
+            message:"Email Sent Successfully, Reset your password now! (please check your span folder, if not found in inbox)"
            })
         }
       }); 
