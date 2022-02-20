@@ -154,75 +154,77 @@ router.post('/forgot-password', async (req, res) => {
   try {
     let dbClient =  await client.db(dbName)
     let userDetails = await dbClient.collection('usersList').findOne({ email: req.body.email });
-    console.log(userDetails,req.body.email,req.body);
+    // console.log(userDetails,req.body.email,req.body);
     if (userDetails) {
-      console.log(userDetails);
+      // console.log(userDetails);
       let UserToken = randomstring.generate(15);
       let genUserToken = await createToken(UserToken,req.body.email);
       await dbClient.collection('usersList').updateOne({ email: req.body.email },{ $set: { "resetPasswordToken" : UserToken }})
-      sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
-      const msg = {
-        to: userDetails.email,
-        from: process.env.EMAIL,
-        subject: 'Password Reset Link',
-        html: `<p>Hi ${userDetails.firstName},</p>
-       <p> Kindly click on the below link to reset your password.</p>
-       <p> Password Reset Link : https://password-rst.netlify.app/reset-password/${genUserToken}</p>
-        <p><strong>Please not that this link will expire within 1 hour.</strong></p>
-        <p>Thank you,</p>
-        <p>NodeAuth Team</p>`,
-     }
-     console.log(msg);
-     sendgrid
-        .send(msg)
-        .then((resp) => {
-          res.json({
-            statusCode:200,
-            message:"Email Sent Successfully, Reset your password now!"
-          })
-        })
-        .catch((error) => {
-          res.json({
-            statusCode:400,
-            message:error
-          })
-      })
+    //  console.log(process.env.SENDGRID_API_KEY);
+    //   sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
+    //   const msg = {
+    //     to: userDetails.email,
+    //     from: process.env.EMAIL,
+    //     subject: 'Password Reset Link',
+    //     html: `<p>Hi ${userDetails.firstName},</p>
+    //    <p> Kindly click on the below link to reset your password.</p>
+    //    <p> Password Reset Link : https://password-rst.netlify.app/reset-password/${genUserToken}</p>
+    //     <p><strong>Please not that this link will expire within 1 hour.</strong></p>
+    //     <p>Thank you,</p>
+    //     <p>NodeAuth Team</p>`,
+    //  }
+    //  console.log(msg);
+    //  sendgrid
+    //     .send(msg)
+    //     .then((resp) => {
+    //       res.json({
+    //         statusCode:200,
+    //         message:"Email Sent Successfully, Reset your password now!"
+    //       })
+    //     })
+    //     .catch((error) => {
+    //       console.log(error)
+    //       res.json({
+    //         statusCode:400,
+    //         message:error
+    //       })
+    //   })
 
       //nodemailer code for mails (alternate)
 
-      // var transporter = nodemailer.createTransport({
-      //   service: 'gmail',
-      //   auth: {
-      //     user: process.env.EMAIL,
-      //     pass: process.env.EMAIL_PASS
-      //   }
-      // });
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.EMAIL_PASS
+        }
+      });
       
-      // var mailOptions = {
-      //   from: 'process.env.EMAIL',
-      //   to: userDetails.email,
-      //   subject: 'Password Reset Link',
-      //   text: `Hi ${userDetails.firstName},
-      //   Kindly click on the below link to reset your password.
-      //   https://password-rst.netlify.app/reset-password/${genUserToken}
-      //   Please not that this link will expire within 1 hour.`
-      // };
+      var mailOptions = {
+        from: 'process.env.EMAIL',
+        to: userDetails.email,
+        subject: 'Password Reset Link',
+        text: `Hi ${userDetails.firstName},
+        Kindly click on the below link to reset your password.
+        https://password-rst.netlify.app/reset-password/${genUserToken}
+        Please not that this link will expire within 1 hour.`
+      };
       
-      // transporter.sendMail(mailOptions, function(error, info){
-      //   if (error) {
-      //     console.log(error);
-      //     res.json({
-      //       statusCode: 500,
-      //       message:error     
-      //      })
-      //   } else {
-      //     console.log('Email sent: ' + info.response);
-      //     res.json({
-      //       statusCode: 200,
-      //       message:"Email Sent successfully" +  info.response
-      //      })
-      //   }
-      // }); 
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+          res.json({
+            statusCode: 500,
+            message:error     
+           })
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.json({
+            statusCode: 200,
+            message:"Email Sent Successfully, Reset your password now! (if email is not found in the inbox, kindly check your span folder)"
+           })
+        }
+      }); 
     }
   else{
     res.json({
@@ -232,7 +234,7 @@ router.post('/forgot-password', async (req, res) => {
   }
 }
   catch (error) {
-    console.log(error)
+    console.log(error);
     res.json({
       statusCode: 500,
       message: "Internal Server Error"
