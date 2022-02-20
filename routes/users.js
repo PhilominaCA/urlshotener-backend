@@ -156,6 +156,7 @@ router.post('/forgot-password', async (req, res) => {
     let userDetails = await dbClient.collection('usersList').findOne({ email: req.body.email });
     console.log(userDetails,req.body.email,req.body);
     if (userDetails) {
+      console.log(userDetails);
       let UserToken = randomstring.generate(15);
       let genUserToken = await createToken(UserToken,req.body.email);
       await dbClient.collection('usersList').updateOne({ email: req.body.email },{ $set: { "resetPasswordToken" : UserToken }})
@@ -166,11 +167,12 @@ router.post('/forgot-password', async (req, res) => {
         subject: 'Password Reset Link',
         html: `<p>Hi ${userDetails.firstName},</p>
        <p> Kindly click on the below link to reset your password.</p>
-       <p> Password Reset Link : https://password-rst.netlify.app/${genUserToken}</p>
+       <p> Password Reset Link : https://password-rst.netlify.app/reset-password/${genUserToken}</p>
         <p><strong>Please not that this link will expire within 1 hour.</strong></p>
         <p>Thank you,</p>
         <p>NodeAuth Team</p>`,
      }
+     console.log(msg);
      sendgrid
         .send(msg)
         .then((resp) => {
@@ -202,7 +204,7 @@ router.post('/forgot-password', async (req, res) => {
       //   subject: 'Password Reset Link',
       //   text: `Hi ${userDetails.firstName},
       //   Kindly click on the below link to reset your password.
-      //   localhost:4000/users/forgot-password/${UserToken}
+      //   https://password-rst.netlify.app/reset-password/${genUserToken}
       //   Please not that this link will expire within 1 hour.`
       // };
       
