@@ -36,15 +36,6 @@ router.get('/get-users', async (req, res) => {
   }
 })
 
-//sample data
-// // {
-// //   "firstName":"Raj",
-// //   "lastName":"Arul",
-// //   "email":"arul@gmail.com",
-// //   "mobile":"2983779098",
-// //   "password":"ABC",
-// // }
-
 router.post('/sign-up', async (req, res) => {
   const client = await MongoClient.connect(process.env.MONGODB_URL)
   try {
@@ -122,7 +113,7 @@ router.post('/login', async (req, res) => {
     })
   }
 })
-//update this
+
 router.post('/verify-login/:token', async (req, res) => {
   const client = await MongoClient.connect(process.env.MONGODB_URL)
   try {
@@ -195,7 +186,7 @@ router.post('/forgot-password', async (req, res) => {
           })
       })
 
-      //nodemailer code - mails are sent to spam folder
+      //nodemailer code for mails (alternate)
 
       // var transporter = nodemailer.createTransport({
       //   service: 'gmail',
@@ -288,13 +279,3 @@ router.post('/reset-password/:token', async (req, res,next) => {
 })
 
 module.exports = router;
-
-
-
-
-// router.post('/auth',verifyToken,/*verifyAdminRole,*/ async(req,res)=>{
-//   res.json({
-//     statusCode:200,
-//     message:req.body.purpose
-//   })
-// })

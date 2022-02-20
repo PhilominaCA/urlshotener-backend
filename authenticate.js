@@ -39,41 +39,10 @@ var sessionToken = async (email)=>{
     )
     return token
 }
-// var verifyToken = async(token)=>{
-//     let decodeData = jwt_decode(token);
-//     if(new Date()/1000<decodeData.exp && decodeData.)
-//     {
-//         next();
-//     }
-//     else{
-//         res.json( {
-//             statusCode:401,
-//             message:"Invalid Token, Please Try again!"
-//         })
-//     }
-// }
 
 var decodeToken = async(token)=>{
-    // console.log(jwt_decode(token))
     const decodedToken = jwt_decode(token)
-// return jwt_decode(token)
 return decodedToken
 }
 
 module.exports = {encryptedPassword,decryptComparePassword,createToken,decodeToken,sessionToken}
-
-
-
-// var verifyAdminRole = async(req,res,next)=>{
-//     let decodeData = JWTD(req.headers.token);
-//     if(decodeData.role===1)
-//     {
-//         next();
-//     }
-//     else{
-//         res.json( {
-//             statusCode:401,
-//             message:"Only Admin can access this site"
-//         })
-//     }
-// }
