@@ -166,7 +166,7 @@ router.post('/forgot-password', async (req, res) => {
         subject: 'Password Reset Link',
         html: `<p>Hi ${userDetails.firstName},</p>
        <p> Kindly click on the below link to reset your password.</p>
-       <p> Password Reset Link : http://localhost:3000/reset-password/${genUserToken}</p>
+       <p> Password Reset Link : https://password-rst.netlify.app/${genUserToken}</p>
         <p><strong>Please not that this link will expire within 1 hour.</strong></p>
         <p>Thank you,</p>
         <p>NodeAuth Team</p>`,
