@@ -45,4 +45,13 @@ var decodeToken = async(token)=>{
 return decodedToken
 }
 
-module.exports = {encryptedPassword,decryptComparePassword,createToken,decodeToken,sessionToken}
+var createActivationToken = async (email)=>{
+    let token = await JWT.sign({
+        email
+        },
+    secret,
+    )
+    return token
+}
+
+module.exports = {encryptedPassword,decryptComparePassword,createToken,decodeToken,sessionToken,createActivationToken}
