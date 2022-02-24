@@ -174,7 +174,7 @@ router.post('/forgot-password', async (req, res) => {
         subject: 'Password Reset Link',
         text: `Hi ${userDetails.firstName},
         Kindly click on the below link to reset your password.
-        http://localhost:3000/reset-password/${genUserToken}
+        https://urlshotnr-frontend.netlify.app/reset-password/${genUserToken}
         Please not that this link will expire within 1 hour.`
       };
 
@@ -272,7 +272,7 @@ router.post('/activation-email/:useremail', async (req, res) => {
         subject: 'Password Reset Link',
         text: `Hi ${userDetails.firstName},
         Kindly click on the below link to activate your account.
-        Account Activation Link : http://localhost:3000/account-activation/${genUserToken}
+        Account Activation Link : https://urlshotnr-frontend.netlify.app/account-activation/${genUserToken}
 
         Thank you,
         NodeAuth Team`

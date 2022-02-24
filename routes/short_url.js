@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 const { MongoClient, dbName } = require('../dbSchema')
 const { nanoid } = require('nanoid');
-const baseUrl = "http://localhost:3000"
+// const baseUrl = "http://localhost:3000"
+const baseUrl = 'https://urlshotnr-frontend.netlify.app'
 
 require('dotenv').config()
 
